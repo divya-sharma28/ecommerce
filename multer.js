@@ -1,0 +1,54 @@
+import multer from 'multer';
+import fs from 'fs';
+
+const file_dest=(destin,cb)=>{
+    if(fs.existsSync(`./uploads/${destin}`)){
+        cb(null, `./uploads/${destin}`);
+    } else{
+        fs.mkdirSync( `uploads/${destin}`);
+        cb(null, `./uploads/${destin}`);
+    }
+}
+
+const file_name =(file,cb)=>{
+    const uniqueSuffix = Date.now();
+    const imgfile = file.originalname;
+    const arr = imgfile.split('.');
+    const ext = arr[arr.length -1];
+    arr.pop();
+    cb(null, `${arr.join('.')}-${uniqueSuffix}.${ext}`)
+}
+// =================================== USER ====================================
+
+    const userStorage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            file_dest('user_images',cb);
+        },
+        filename: function (req, file, cb) {
+           file_name(file,cb);
+        }
+    });
+    
+    export const userUpload = multer({ storage: userStorage });
+
+ // ================================== PRODUCT ================================
+    const prodStorage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            file_dest('prod_images',cb);
+        },
+        filename: function (req, file, cb) {
+           file_name(file,cb);
+        }
+    });
+    
+    export const prodUpload = multer({ storage: prodStorage })
+
+
+    
+
+
+
+
+
+
+
