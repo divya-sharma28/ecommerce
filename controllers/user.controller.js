@@ -34,7 +34,7 @@ export const register = async (req, res) => {
 
                 if(addUser){
                     res.status(200).json({
-                        Data: addUser,
+                        Data: {email:addUser.email,name: addUser.name},
                         message: `${email} registered successfully!`
                     })
                 }
@@ -66,7 +66,7 @@ export const login = async(req,res) =>{
             if(match){
                 const token = jwt.sign({_id:existUser._id,email:existUser.email},'stories123',{expiresIn:'90d'})
                 res.status(200).json({
-                    data: existUser,
+                    data: {name: existUser.name, email: existUser.email},
                     token: token,
                     message: 'Login successful!'
                 });
