@@ -22,6 +22,10 @@ const vendorSchema = new Schema({
     location:{
         type: String,
         required: true
+    },
+    personal:{
+        type:String,
+        
     }
     
 });
