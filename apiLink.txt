@@ -1,0 +1,12 @@
+category :
+
+http://localhost:5000/category/get-category
+
+
+location :
+
+http://localhost:5000/location/get-location
+
+user : 
+(ADD )
+http://
