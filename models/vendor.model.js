@@ -1,6 +1,4 @@
 import mongoose from "mongoose";
-import categoryModel from "./category.model";
-import locationModel from "./location.model";
 
 const Schema = mongoose.Schema;
 
@@ -18,13 +16,11 @@ const vendorSchema = new Schema({
         required: true
     },
     category:{
-        type: Schema.Types.ObjectId,
-        ref: categoryModel,
+        type: Array,
         required: true
     },
     location:{
-        type: Schema.Types.ObjectId,
-        ref:locationModel,
+        type: String,
         required: true
     }
     
