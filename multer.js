@@ -20,16 +20,16 @@ const file_name =(file,cb)=>{
 }
 // =================================== USER ====================================
 
-    const userStorage = multer.diskStorage({
+    const categoryStorage = multer.diskStorage({
         destination: function (req, file, cb) {
-            file_dest('user_images',cb);
+            file_dest('category_images',cb);
         },
         filename: function (req, file, cb) {
            file_name(file,cb);
         }
     });
     
-    export const userUpload = multer({ storage: userStorage });
+    export const categoryUpload = multer({ storage: categoryStorage });
 
  // ================================== PRODUCT ================================
     const prodStorage = multer.diskStorage({
