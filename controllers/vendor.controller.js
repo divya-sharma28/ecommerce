@@ -1,6 +1,4 @@
 import vendorModel from '../models/vendor.model';
-import categoryModel from '../models/category.model';
-import locationModel from '../models/location.model';
 import bcrypt from 'bcrypt';
 import jwt  from "jsonwebtoken";
 
@@ -17,7 +15,6 @@ export const register = async (req, res) => {
                 message: `${vendorExists.email} already exists!`
             })
         }
-
         else{
             if(password !== confirm_password){
                 res.status(401).json({
@@ -26,14 +23,12 @@ export const register = async (req, res) => {
             }
             else{
                 const hashPassword = bcrypt.hashSync(password, 10);
-                const vendorCat = await categoryModel.findOne({name: category});
-                const vendorLoc = await locationModel.findOne({location: location});
                 const addVendor = new vendorModel({
                     name : name,
                     email: email,
                     password: hashPassword,
-                    category: vendorCat._id,
-                    location: vendorLoc._id
+                    category: category,
+                    location: location
 
                 });
 
@@ -41,7 +36,7 @@ export const register = async (req, res) => {
 
                 if(addVendor){
                     res.status(200).json({
-                        Data: {email:addVendor.email,name: addVendor.name},
+                        Data: {email:addVendor.email,name: addVendor.name, category: addVendor.category, location: addVendor.location},
                         message: `${email} registered successfully!`
                     })
                 }
@@ -67,13 +62,13 @@ export const login = async(req,res) =>{
     try {
         const {email, password} = req.body;
 
-        const existUser = await userModel.findOne({email:email});
-        if(existUser){
-            const match = await bcrypt.compare(password, existUser.password);
+        const existVendor = await vendorModel.findOne({email:email});
+        if(existVendor){
+            const match = await bcrypt.compare(password, existVendor.password);
             if(match){
-                const token = jwt.sign({_id:existUser._id,email:existUser.email},'stories123',{expiresIn:'90d'})
+                const token = jwt.sign({_id:existVendor._id,email:existVendor.email},'vendor123',{expiresIn:'90d'})
                 res.status(200).json({
-                    data: {name: existUser.name, email: existUser.email},
+                    data: {name: existVendor.name, email: existVendor.email},
                     token: token,
                     message: 'Login successful!'
                 });
@@ -97,18 +92,18 @@ export const login = async(req,res) =>{
 }
 
 // ----------------- GET ALL USERS (GET) -------------------
-export const getUsers = async(req,res)=>{
+export const getVendors = async(req,res)=>{
     try {
-        const getuser = await userModel.find();
-        if (getuser) {
+        const getVendor = await vendorModel.find();
+        if (getVendor) {
             res.status(201).json({
-                data: getuser,
-                message: 'Users fetched successfully!'
+                data: getVendor,
+                message: 'Vendors fetched successfully!'
             });
         }
         else {
             res.status(400).json({
-                message: 'Error while fetching users!'
+                message: 'Error while fetching vendors!'
             });
         }
     } catch (error) {
@@ -119,19 +114,19 @@ export const getUsers = async(req,res)=>{
 }
 
 // ----------------- GET SINGLE USER (GET) -------------------
-export const getUser = async(req,res)=>{
+export const getVendor = async(req,res)=>{
     try {
-        const userID = req.params.userID
-        const getuser = await userModel.find({_id: userID});
-        if (getuser) {
+        const vendorID = req.params.vendorID
+        const getVendor = await vendorModel.find({_id: vendorID});
+        if (getVendor) {
             res.status(201).json({
-                data: getuser,
-                message: 'User fetched successfully!'
+                data: getVendor,
+                message: 'Vendor fetched successfully!'
             });
         }
         else {
             res.status(400).json({
-                message: 'Error while fetching user!'
+                message: 'Error while fetching vendor!'
             });
         }
     } catch (error) {
@@ -142,10 +137,10 @@ export const getUser = async(req,res)=>{
 }
 
 // ----------------- UPDATE USER (PATCH) -------------------
-export const updateUser = async(req,res)=>{
+export const updateVendor = async(req,res)=>{
     try {
-        const userID = req.params.userID
-        const {name, email, password, confirm_password} = req.body;
+        const vendorID = req.params.vendorID
+        const {name, email, password, confirm_password, category, location} = req.body;
 
         let hashPassword;
         if(password){
@@ -159,23 +154,26 @@ export const updateUser = async(req,res)=>{
             }
 
         }
-        const updateUser = await userModel.updateOne({_id: userID},{
+        const updateVendor = await vendorModel.updateOne({_id: vendorID},{
             $set:{
                 name: name,
                 email: email,
-                password: hashPassword
+                password: hashPassword,
+                category: category,
+                location: location
+
             }
         });
         
-        if (updateUser.acknowledged) {
+        if (updateVendor.acknowledged) {
             res.status(201).json({
-                data: updateUser,
-                message: 'Users updated successfully!'
+                data: updateVendor,
+                message: 'Vendors updated successfully!'
             });
         }
         else {
             res.status(400).json({
-                message: 'Error while updating users!'
+                message: 'Error while updating vendor!'
             });
         }
     } catch (error) {
@@ -191,17 +189,17 @@ export const updateUser = async(req,res)=>{
 
 export const deleteUser = async(req,res)=>{
     try {
-        const userID = req.params.userID
-        const deluser = await userModel.deleteOne({_id: userID});
-        if (deluser) {
+        const vendorID = req.params.vendorID
+        const delvendor = await vendorModel.deleteOne({_id: vendorID});
+        if (delvendor) {
             res.status(201).json({
-                data: deluser,
-                message: 'User fetched successfully!'
+                data: delvendor,
+                message: 'Vendor deleted successfully!'
             });
         }
         else {
             res.status(400).json({
-                message: 'Error while fetching user!'
+                message: 'Error while deleting vendor!'
             });
         }
     } catch (error) {

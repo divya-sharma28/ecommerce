@@ -14,7 +14,14 @@ export const addCategory = (req, res) => {
             }
             else {
                 const { name } = req.body;
-                const img = req.file.filename;
+                let img;
+                if(req.files){
+                    img = req.file.filename;
+
+                }
+                else{
+                    img = "default.png"
+                }
                 const addCat = new categoryModel({
                     name: name,
                     image: img

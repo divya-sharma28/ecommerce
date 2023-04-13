@@ -64,7 +64,7 @@ export const login = async(req,res) =>{
         if(existUser){
             const match = await bcrypt.compare(password, existUser.password);
             if(match){
-                const token = jwt.sign({_id:existUser._id,email:existUser.email},'stories123',{expiresIn:'90d'})
+                const token = jwt.sign({_id:existUser._id,email:existUser.email},'user123',{expiresIn:'90d'})
                 res.status(200).json({
                     data: {name: existUser.name, email: existUser.email},
                     token: token,
