@@ -23,10 +23,7 @@ const vendorSchema = new Schema({
         type: String,
         required: true
     },
-    personal:{
-        type:String,
-        
-    }
+ 
     
 });
 
