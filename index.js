@@ -8,6 +8,7 @@ import catRouter from './routers/category.router';
 import userRouter from './routers/user.router';
 import locRouter from './routers/location.router';
 import vendorRouter from './routers/vendor.router';
+import adminRouter from './routers/admin.router';
 dotenv.config()
 
 const app = express();
@@ -42,3 +43,4 @@ app.use('/product', productRouter);
 app.use('/user',userRouter);
 app.use('/location',locRouter);
 app.use('/vendor', vendorRouter);
+app.use('/admin', adminRouter);
