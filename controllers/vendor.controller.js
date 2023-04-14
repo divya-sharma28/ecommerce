@@ -22,12 +22,13 @@ export const register = async (req, res) => {
                 })
             }
             else{
+                const catData = category.split(",")
                 const hashPassword = bcrypt.hashSync(password, 10);
                 const addVendor = new vendorModel({
                     name : name,
                     email: email,
                     password: hashPassword,
-                    category: category,
+                    category: catData,
                     location: location
 
                 });
@@ -187,7 +188,7 @@ export const updateVendor = async(req,res)=>{
 
 // ----------------- DELETE USER (DELETE) -------------------
 
-export const deleteUser = async(req,res)=>{
+export const deleteVendor = async(req,res)=>{
     try {
         const vendorID = req.params.vendorID
         const delvendor = await vendorModel.deleteOne({_id: vendorID});

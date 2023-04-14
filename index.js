@@ -7,6 +7,7 @@ import productRouter from './routers/product.router';
 import catRouter from './routers/category.router';
 import userRouter from './routers/user.router';
 import locRouter from './routers/location.router';
+import vendorRouter from './routers/vendor.router';
 dotenv.config()
 
 const app = express();
@@ -38,5 +39,6 @@ mongoose.connect('mongodb+srv://divya1234:e98sm5XQwDZoHY10@cluster0.jmnr6i1.mong
 
 app.use('/category',catRouter);
 app.use('/product', productRouter);
-app.use('/user',userRouter)
-app.use('/location',locRouter)
+app.use('/user',userRouter);
+app.use('/location',locRouter);
+app.use('/vendor', vendorRouter);

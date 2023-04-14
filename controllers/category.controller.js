@@ -163,13 +163,16 @@ export const deleteCategory = async (req, res) => {
     try {
         const catID = req.params.catID;
         const oldData = await categoryModel.findOne({ _id: catID });
-        fs.unlink(`./uploads/category_images/${oldData.image}`, (err)=>{
-            if(err){
-                res.status(400).json({
-                    message: `Cannot delete image: ${err.message}`
-                })
-            }
-        })
+        if (oldData.image !== 'default.png'){
+            fs.unlink(`./uploads/category_images/${oldData.image}`, (err)=>{
+                if(err){
+                    res.status(400).json({
+                        message: `Cannot delete image: ${err.message}`
+                    })
+                }
+            })
+        }
+   
         const deleteCat = await categoryModel.deleteOne({ _id: catID });
         if (deleteCat) {
             res.status(200).json({
