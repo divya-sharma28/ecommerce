@@ -1,12 +1,38 @@
 category :
-
 http://localhost:5000/category/get-category
 
 
 location :
-
 http://localhost:5000/location/get-location
 
 user : 
-(ADD )
-http://
+(NEW USER REGISTER)
+http://localhost:5000/user/register   --> input fields=> name, email, location, password, confirm_password
+
+(USER LOGIN)
+http://localhost:5000/user/login --> input fields=> email, password
+
+(GET ALL USERS)
+http://localhost:5000/user/get-user
+
+
+vendor : 
+(NEW VENDOR REGISTER)
+http://localhost:5000/vendor/register --> input fields=> name, email, category, location, password, confirm_password
+
+(VENDOR LOGIN)
+http://localhost:5000/vendor/login --> input fields=> email, password
+
+(GET ALL VENDORS)
+http://localhost:5000/vendor/get-vendor
+
+
+admin :
+(NEW ADMIN REGISTER)
+http://localhost:5000/admin/register --> input fields=> name, email, password, confirm_password
+
+(ADMIN LOGIN)
+http://localhost:5000/admin/login --> input fields=> email, password
+
+(GET ALL ADMINS)
+http://localhost:5000/admin/get-admin
