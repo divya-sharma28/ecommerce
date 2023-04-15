@@ -66,7 +66,7 @@ export const getCategories = async (req, res) => {
         if (allCats) {
             res.status(200).json({
                 data: allCats,
-                path: `${process.env.PATH}/category_images`,
+                path: `${process.env.IMG_PATH}/category_images`,
                 message: 'Categories fetched successfully!'
             });
         }
