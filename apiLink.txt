@@ -26,7 +26,6 @@ http://localhost:5000/vendor/login --> input fields=> email, password
 (GET ALL VENDORS)
 http://localhost:5000/vendor/get-vendor
 
-
 admin :
 (NEW ADMIN REGISTER)
 http://localhost:5000/admin/register --> input fields=> name, email, password, confirm_password
