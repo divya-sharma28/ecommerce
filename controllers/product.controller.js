@@ -39,6 +39,7 @@ export const addProduct=(req,res)=>{
                     res.status(201).json({
                         data: addProd,
                         message: 'Product inserted successfully!!'
+                    
                     })
                 }
                 else{
@@ -98,6 +99,7 @@ export const allProducts = async(req,res)=>{
         if(allProds){
             res.status(200).json({
                 data: allProds,
+                path: `${process.env.IMG_PATH}/prod_images`,
                 message: 'Products fetched successfully!'
             });
         } 
@@ -122,6 +124,7 @@ export const singleProduct = async(req,res)=>{
         if(singleProd){
             res.status(200).json({
                 data: singleProd,
+                path: `${process.env.IMG_PATH}/prod_images`,
                 message: 'Product fetched successfully!'
             });
         } 

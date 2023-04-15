@@ -30,7 +30,6 @@ export const addCategory = (req, res) => {
                 if (saveData) {
                     res.status(201).json({
                         data: addCat,
-                        path: `${process.env.PATH}/category_images`,
                         message: 'Category added to database :)'
                     });
                 }
@@ -90,6 +89,7 @@ export const singleCategory = async (req, res) => {
         if (singleCat) {
             res.status(200).json({
                 data: singleCat,
+                path: `${process.env.IMG_PATH}/category_images`,
                 message: 'Category fetched successfully!'
             });
         }
