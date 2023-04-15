@@ -1,11 +1,10 @@
-category :
+--------------------------------------------------CATEGORY-------------------------------------------
 http://localhost:5000/category/get-category
 
-
-location :
+--------------------------------------------------LOCATION-------------------------------------------
 http://localhost:5000/location/get-location
 
-user : 
+--------------------------------------------------USER-------------------------------------------
 (NEW USER REGISTER)
 http://localhost:5000/user/register   --> input fields=> name, email, location, password, confirm_password
 
@@ -15,8 +14,7 @@ http://localhost:5000/user/login --> input fields=> email, password
 (GET ALL USERS)
 http://localhost:5000/user/get-user
 
-
-vendor : 
+--------------------------------------------------VENDOR-------------------------------------------
 (NEW VENDOR REGISTER)
 http://localhost:5000/vendor/register --> input fields=> name, email, category, location, password, confirm_password
 
@@ -26,7 +24,7 @@ http://localhost:5000/vendor/login --> input fields=> email, password
 (GET ALL VENDORS)
 http://localhost:5000/vendor/get-vendor
 
-admin :
+--------------------------------------------------ADMIN-------------------------------------------
 (NEW ADMIN REGISTER)
 http://localhost:5000/admin/register --> input fields=> name, email, password, confirm_password
 
