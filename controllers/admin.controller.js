@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt  from "jsonwebtoken";
 
 
-// ----------------- REGISTER NEW admin (POST) -------------------
+// ----------------- REGISTER NEW ADMIN (POST) -------------------
 
 export const register = async (req, res) => {
     try {
@@ -12,14 +12,18 @@ export const register = async (req, res) => {
 
         if(adminExists){
             res.status(409).json({
-                message: `${adminExists.email} already exists!`
+                message: `${adminExists.email} already exists!`,
+                success: false
+
             })
         }
 
         else{
             if(password !== confirm_password){
                 res.status(401).json({
-                    message: `Password does not match!`
+                    message: `Password does not match!`,
+                    success: false
+
                 })
             }
             else{
@@ -35,12 +39,16 @@ export const register = async (req, res) => {
                 if(addAdmin){
                     res.status(200).json({
                         Data: {email:addAdmin.email,name: addAdmin.name},
-                        message: `${email} registered successfully!`
+                        message: `${email} registered successfully!`,
+                        success: true
+
                     })
                 }
                 else{
                     res.status(400).json({
-                        message:`Registeration failed!`
+                        message:`Registeration failed!`,
+                        success: false
+
                     })
                 }
             }
@@ -49,12 +57,14 @@ export const register = async (req, res) => {
 
     } catch (error) {
         res.status(500).json({
-            message: `Server Error: ${error.message}`
+            message: `Server Error: ${error.message}`,
+            success: false
+
         });
     }
 }
 
-// ----------------- admin LOGIN (POST) -------------------
+// ----------------- ADMIN LOGIN (POST) -------------------
 
 export const login = async(req,res) =>{
     try {
@@ -68,23 +78,31 @@ export const login = async(req,res) =>{
                 res.status(200).json({
                     data: {name: existadmin.name, email: existadmin.email},
                     token: token,
-                    message: 'Login successful!'
+                    message: 'Login successful!',
+                    success: true
+
                 });
             }
             else{
                 res.status(400).json({
-                    message: 'Password incorrect!'
+                    message: 'Password incorrect!',
+                    success: false
+
                 });  
             }
         }
         else{
             res.status(400).json({
-                message: `${email} is not registered!`
-            });
+                message: `${email} is not registered!`,
+                success: false
+
+            });                                                                                              
         }
     } catch (error) {
         res.status(500).json({
-            message: `Server Error: ${error.message}`
+            message: `Server Error: ${error.message}`,
+            success: false
+
         });
     }
 }
@@ -96,22 +114,28 @@ export const getAdmins = async(req,res)=>{
         if (getAdmin) {
             res.status(201).json({
                 data: getAdmin,
-                message: 'admins fetched successfully!'
+                message: 'admins fetched successfully!',
+                success: true
+
             });
         }
         else {
             res.status(400).json({
-                message: 'Error while fetching admins!'
+                message: 'Error while fetching admins!',
+                success: false
+
             });
         }
     } catch (error) {
         res.status(500).json({
-            message: `Server Error: ${error.message}`
+            message: `Server Error: ${error.message}`,
+            success: false
+
         });
     }
 }
 
-// ----------------- GET SINGLE admin (GET) -------------------
+// ----------------- GET SINGLE ADMIN (GET) -------------------
 export const getAdmin = async(req,res)=>{
     try {
         const adminID = req.params.adminID
@@ -119,22 +143,28 @@ export const getAdmin = async(req,res)=>{
         if (getadmin) {
             res.status(201).json({
                 data: getadmin,
-                message: 'admin fetched successfully!'
+                message: 'admin fetched successfully!',
+                success: true
+
             });
         }
         else {
             res.status(400).json({
-                message: 'Error while fetching admin!'
+                message: 'Error while fetching admin!',
+                success: false
+
             });
         }
     } catch (error) {
         res.status(500).json({
-            message: `Server Error: ${error.message}`
+            message: `Server Error: ${error.message}`,
+            success: false
+
         });
     }
 }
 
-// ----------------- UPDATE admin (PATCH) -------------------
+// ----------------- UPDATE ADMIN (PATCH) -------------------
 export const updateAdmin = async(req,res)=>{
     try {
         const adminID = req.params.adminID
@@ -180,10 +210,10 @@ export const updateAdmin = async(req,res)=>{
 
 
 
-// ----------------- DELETE admin (DELETE) -------------------
+// ----------------- DELETE ADMIN (DELETE) -------------------
 
 export const deleteAdmin = async(req,res)=>{
-    try {
+    try { 
         const adminID = req.params.adminID
         const deladmin = await adminModel.deleteOne({_id: adminID});
         if (deladmin) {

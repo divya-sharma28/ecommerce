@@ -11,14 +11,17 @@ export const register = async (req, res) => {
 
         if(userExists){
             res.status(409).json({
-                message: `${userExists.email} already exists!`
+               message: `${userExists.email} already exists!`,
+               success: false
+
             })
         }
 
         else{
             if(password !== confirm_password){
                 res.status(401).json({
-                    message: `Password does not match!`
+                    message: `Password does not match!`,
+                    success: false
                 })
             }
             else{
@@ -35,12 +38,14 @@ export const register = async (req, res) => {
                 if(addUser){
                     res.status(200).json({
                         Data: {email:addUser.email,name: addUser.name},
-                        message: `${email} registered successfully!`
+                        message: `${email} registered successfully!`,
+                        success: true
                     })
                 }
                 else{
                     res.status(400).json({
-                        message:`Registeration failed!`
+                        message:`Registeration failed!`,
+                        success: false
                     })
                 }
             }
@@ -49,7 +54,9 @@ export const register = async (req, res) => {
 
     } catch (error) {
         res.status(500).json({
-            message: `Server Error: ${error.message}`
+            message: `Server Error: ${error.message}`,
+            success: false
+
         });
     }
 }
@@ -68,23 +75,29 @@ export const login = async(req,res) =>{
                 res.status(200).json({
                     data: {name: existUser.name, email: existUser.email},
                     token: token,
-                    message: 'Login successful!'
+                    message: 'Login successful!',
+                    success: true
+
                 });
             }
             else{
                 res.status(400).json({
-                    message: 'Password incorrect!'
+                    message: 'Password incorrect!',
+                    success: false
+
                 });  
             }
         }
         else{
             res.status(400).json({
-                message: `${email} is not registered!`
+                message: `${email} is not registered!`,
+                success: false
             });
         }
     } catch (error) {
         res.status(500).json({
-            message: `Server Error: ${error.message}`
+            message: `Server Error: ${error.message}`,
+            success: false
         });
     }
 }
@@ -96,17 +109,21 @@ export const getUsers = async(req,res)=>{
         if (getuser) {
             res.status(201).json({
                 data: getuser,
-                message: 'Users fetched successfully!'
+                message: 'Users fetched successfully!',
+                success: true
             });
         }
         else {
             res.status(400).json({
-                message: 'Error while fetching users!'
+                message: 'Error while fetching users!',
+                success: false
             });
         }
     } catch (error) {
         res.status(500).json({
-            message: `Server Error: ${error.message}`
+            message: `Server Error: ${error.message}`,
+            success: false
+
         });
     }
 }
@@ -119,17 +136,23 @@ export const getUser = async(req,res)=>{
         if (getuser) {
             res.status(201).json({
                 data: getuser,
-                message: 'User fetched successfully!'
+                message: 'User fetched successfully!',
+                success: true
+
             });
         }
         else {
             res.status(400).json({
-                message: 'Error while fetching user!'
+                message: 'Error while fetching user!',
+                success: false
+
             });
         }
     } catch (error) {
         res.status(500).json({
-            message: `Server Error: ${error.message}`
+            message: `Server Error: ${error.message}`,
+            success: false
+
         });
     }
 }

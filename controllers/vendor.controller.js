@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt  from "jsonwebtoken";
 
 
-// ----------------- REGISTER NEW USER (POST) -------------------
+// ----------------- REGISTER NEW VENDOR (POST) -------------------
 
 export const register = async (req, res) => {
     try {
@@ -12,13 +12,17 @@ export const register = async (req, res) => {
 
         if(vendorExists){
             res.status(409).json({
-                message: `${vendorExists.email} already exists!`
+                message: `${vendorExists.email} already exists!`,
+                success: false
+
             })
         }
         else{
             if(password !== confirm_password){
                 res.status(401).json({
-                    message: `Password does not match!`
+                    message: `Password does not match!`,
+                    success: false
+
                 })
             }
             else{
@@ -38,12 +42,16 @@ export const register = async (req, res) => {
                 if(addVendor){
                     res.status(200).json({
                         Data: {email:addVendor.email,name: addVendor.name, category: addVendor.category, location: addVendor.location},
-                        message: `${email} registered successfully!`
+                        message: `${email} registered successfully!`,
+                        success: true
+
                     })
                 }
                 else{
                     res.status(400).json({
-                        message:`Registeration failed!`
+                        message:`Registeration failed!`,
+                        success: false
+
                     })
                 }
             }
@@ -52,12 +60,14 @@ export const register = async (req, res) => {
 
     } catch (error) {
         res.status(500).json({
-            message: `Server Error: ${error.message}`
+            message: `Server Error: ${error.message}`,
+            success: false
+
         });
     }
 }
 
-// ----------------- USER LOGIN (POST) -------------------
+// ----------------- VENDOR LOGIN (POST) -------------------
 
 export const login = async(req,res) =>{
     try {
@@ -71,28 +81,36 @@ export const login = async(req,res) =>{
                 res.status(200).json({
                     data: {name: existVendor.name, email: existVendor.email},
                     token: token,
-                    message: 'Login successful!'
+                    message: 'Login successful!',
+                    success: true
+
                 });
             }
             else{
                 res.status(400).json({
-                    message: 'Password incorrect!'
+                    message: 'Password incorrect!',
+                    success: false
+
                 });  
             }
         }
         else{
             res.status(400).json({
-                message: `${email} is not registered!`
+                message: `${email} is not registered!`,
+                success: false
+
             });
         }
     } catch (error) {
         res.status(500).json({
-            message: `Server Error: ${error.message}`
+            message: `Server Error: ${error.message}`,
+            success: false
+
         });
     }
 }
 
-// ----------------- GET ALL USERS (GET) -------------------
+// ----------------- GET ALL VENDORS (GET) -------------------
 export const getVendors = async(req,res)=>{
     try {
         const getVendor = await vendorModel.find();
@@ -114,7 +132,7 @@ export const getVendors = async(req,res)=>{
     }
 }
 
-// ----------------- GET SINGLE USER (GET) -------------------
+// ----------------- GET SINGLE VENDOR (GET) -------------------
 export const getVendor = async(req,res)=>{
     try {
         const vendorID = req.params.vendorID
@@ -137,7 +155,7 @@ export const getVendor = async(req,res)=>{
     }
 }
 
-// ----------------- UPDATE USER (PATCH) -------------------
+// ----------------- UPDATE VENDOR (PATCH) -------------------
 export const updateVendor = async(req,res)=>{
     try {
         const vendorID = req.params.vendorID
@@ -186,7 +204,7 @@ export const updateVendor = async(req,res)=>{
 
 
 
-// ----------------- DELETE USER (DELETE) -------------------
+// ----------------- DELETE VENDOR (DELETE) -------------------
 
 export const deleteVendor = async(req,res)=>{
     try {
