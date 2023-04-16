@@ -24,17 +24,17 @@ export const register = async (req, res) => {
             }
             else{
                 const hashPassword = bcrypt.hashSync(password, 10);
-                const addadmin = new adminModel({
+                const addAdmin = new adminModel({
                     name : name,
                     email: email,
                     password: hashPassword
                 });
 
-                addadmin.save();
+                addAdmin.save();
 
-                if(addadmin){
+                if(addAdmin){
                     res.status(200).json({
-                        Data: {email:addadmin.email,name: addadmin.name},
+                        Data: {email:addAdmin.email,name: addAdmin.name},
                         message: `${email} registered successfully!`
                     })
                 }
@@ -89,13 +89,13 @@ export const login = async(req,res) =>{
     }
 }
 
-// ----------------- GET ALL adminS (GET) -------------------
+// ----------------- GET ALL ADMINS (GET) -------------------
 export const getAdmins = async(req,res)=>{
     try {
-        const getadmin = await adminModel.find();
-        if (getadmin) {
+        const getAdmin = await adminModel.find();
+        if (getAdmin) {
             res.status(201).json({
-                data: getadmin,
+                data: getAdmin,
                 message: 'admins fetched successfully!'
             });
         }
