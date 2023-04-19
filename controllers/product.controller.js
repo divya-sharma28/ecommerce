@@ -144,11 +144,11 @@ export const singleProduct = async(req,res)=>{
 
 export const updateProduct = (req,res)=>{
     try {
-        const uploadData = prodUpload.single('image');
+        const uploadData = prodUpload.array('images',3);
         uploadData(req,res,async (err)=>{
             if(err){
                 res.status(400).json({
-                    message:err.message
+                    message:`Cannot upload image: ${err.message}`
                 })
             }
             else{
@@ -157,21 +157,24 @@ export const updateProduct = (req,res)=>{
 
                 const {name,description,vendor_price,user_price,rating,stock,brand,category}= req.body;
 
-                const oldProdData = await productModel.findOne({_id:prodID});
-                let images;
+
+                let new_images;
+                let imgs;
                 if(req.files){
-                     images = req.files;
-                    var imgs = images.map(a=>{
-                        a.filename
+                    new_images = req.files;
+                    imgs = new_images.map(a=>{
+                        return a.filename
                     });
-
-                    fs.unlink(`./uploads/prod_images/${oldProdData.images}`, (err)=>{
-                        res.status(400).json({
-                            message: `Could not delete old Image:${err.message}`
-                        })
-                    })
+                    const oldProdData = await productModel.findOne({_id:prodID});
+                    oldProdData.images.forEach(element => {
+                        console.log(element)
+                        fs.unlink(`./uploads/prod_images/${element}`, (err)=>{
+                            res.status(400).json({
+                                message: `Could not delete old Image: ${err}`
+                            })
+                        });
+                    });
                 }
-
 
                 const updateProd = await productModel.updateOne({_id:prodID},
                     {$set:{name:name, description: description, vendor_price: vendor_price, user_price: user_price,
