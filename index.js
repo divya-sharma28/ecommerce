@@ -9,6 +9,7 @@ import userRouter from './routers/user.router';
 import locRouter from './routers/location.router';
 import vendorRouter from './routers/vendor.router';
 import adminRouter from './routers/admin.router';
+import cartRouter from './routers/cart.router';
 dotenv.config()
 
 const app = express();
@@ -44,3 +45,4 @@ app.use('/user',userRouter);
 app.use('/location',locRouter);
 app.use('/vendor', vendorRouter);
 app.use('/admin', adminRouter);
+app.use('/cart',cartRouter)
