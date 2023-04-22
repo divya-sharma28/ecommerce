@@ -68,8 +68,9 @@ export const allProducts = async(req,res)=>{
 
         // --------------------- Find product by category ----------------------------
         if(category){
-            const catdata = await categoryModel.findOne({categoryName: category});
-            // console.log(catdata);
+            console.log(category)
+            const catdata = await categoryModel.findOne({name: category});
+            console.log(catdata);
             allProds = await productModel.find({category: catdata._id}).populate('category');
         }
 
