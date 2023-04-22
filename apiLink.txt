@@ -33,3 +33,28 @@ http://localhost:5000/admin/login --> input fields=> email, password
 
 (GET ALL ADMINS)
 http://localhost:5000/admin/get-admin
+
+-----------------------------------------------CART--------------------------------------------
+
+(ADD TO CART)
+http://localhost:5000/cart/add-to-cart --> required fields => productID, userID
+
+(GET ALL CARTS)
+http://localhost:5000/cart/get-carts
+
+(GET PARTICULAR USER CART)
+http://localhost:5000/cart/get-user-cart/(userID)
+
+(UPDATE CART ITEM QUANTITY)
+http://localhost:5000/cart/update-cart/(cartID)
+
+(DELETE AN ITEM FROM A USER'S CART)
+http://localhost:5000/cart/delete-item/(cartID)
+
+(DELETE ENTIRE CART OF A USER)
+http://localhost:5000/cart/delete-user-cart/(userID)
+
+
+
+
+

@@ -8,6 +8,6 @@ cartRouter.get('/get-carts',getCartData);
 cartRouter.get('/get-user-cart/:userID',getUserCart);
 cartRouter.patch('/update-cart/:itemID',updateCart);
 cartRouter.delete('/delete-item/:cartID',deleteCartItem);
-cartRouter.delete('/delete-cart/:userID',deleteUserCart);
+cartRouter.delete('/delete-user-cart/:userID',deleteUserCart);
 
 export default cartRouter;
