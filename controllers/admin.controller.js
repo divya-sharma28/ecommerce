@@ -76,7 +76,7 @@ export const login = async(req,res) =>{
             if(match){
                 const token = jwt.sign({_id:existadmin._id,email:existadmin.email},'admin123',{expiresIn:'90d'})
                 res.status(200).json({
-                    data: {name: existadmin.name, email: existadmin.email},
+                    data: {name: existadmin.name, email: existadmin.email, _id:existadmin._id},
                     token: token,
                     message: 'Login successful!',
                     success: true
