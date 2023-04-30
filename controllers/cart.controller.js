@@ -82,7 +82,8 @@ export const getCartData = async (req,res) =>{
         if(cartData){
             res.status(200).json({
                 data: cartData,
-                message:'Cart retrieved successfully!'
+                message:'Cart retrieved successfully!',
+                path: `${process.env.IMG_PATH}/prod_images`,
             });
         }
         else{
@@ -109,7 +110,9 @@ export const getUserCart = async (req,res) =>{
             res.status(200).json({
                 data:{
                     cart: cartData,
-                    cart_total: totatAmount
+                    cart_total: totatAmount,
+                    path: `${process.env.IMG_PATH}/prod_images`,
+
                 },
                 message:'Cart retrieved successfully!'
             });
