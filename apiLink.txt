@@ -1,56 +1,75 @@
 ----------------------------------------------CATEGORY---------------------------------------
+METHOD: GET
 http://localhost:5000/category/get-category
 
 ----------------------------------------------LOCATION---------------------------------------
+METHOD: GET
 http://localhost:5000/location/get-location
 
 ------------------------------------------------USER-----------------------------------------
+METHOD: POST
 (NEW USER REGISTER)
 http://localhost:5000/user/register   --> input fields=> name, email, location, password, confirm_password
 
+METHOD: POST
 (USER LOGIN)
 http://localhost:5000/user/login --> input fields=> email, password
 
+METHOD: GET
 (GET ALL USERS)
 http://localhost:5000/user/get-user
 
 ----------------------------------------------VENDOR------------------------------------------
+
+METHOD: POST
 (NEW VENDOR REGISTER)
 http://localhost:5000/vendor/register --> input fields=> name, email, category, location, password, confirm_password
 
+METHOD: POST
 (VENDOR LOGIN)
 http://localhost:5000/vendor/login --> input fields=> email, password
 
+METHOD: GET
 (GET ALL VENDORS)
 http://localhost:5000/vendor/get-vendor
 
 -----------------------------------------------ADMIN-------------------------------------------
+
+METHOD: POST
 (NEW ADMIN REGISTER)
 http://localhost:5000/admin/register --> input fields=> name, email, password, confirm_password
 
+METHOD: POST
 (ADMIN LOGIN)
 http://localhost:5000/admin/login --> input fields=> email, password
 
+METHOD: GET
 (GET ALL ADMINS)
 http://localhost:5000/admin/get-admin
 
 -----------------------------------------------CART--------------------------------------------
 
+METHOD: POST
 (ADD TO CART)
 http://localhost:5000/cart/add-to-cart --> required fields => productID, userID
 
+METHOD: GET
 (GET ALL CARTS)
 http://localhost:5000/cart/get-carts
 
+METHOD: GET
 (GET PARTICULAR USER CART)
 http://localhost:5000/cart/get-user-cart/(userID)
 
+METHOD: PATCH
 (UPDATE CART ITEM QUANTITY)
 http://localhost:5000/cart/update-cart/(cartID)
 
+METHOD: DELETE
 (DELETE AN ITEM FROM A USER'S CART)
 http://localhost:5000/cart/delete-item/(cartID)
 
+METHOD: DELETE
 (DELETE ENTIRE CART OF A USER)
 http://localhost:5000/cart/delete-user-cart/(userID)
 
