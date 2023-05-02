@@ -50,8 +50,14 @@ http://localhost:5000/admin/get-admin
 -----------------------------------------------CART--------------------------------------------
 
 METHOD: POST
+data:{
+    productID:'',
+    userID:''
+}
 (ADD TO CART)
 http://localhost:5000/cart/add-to-cart --> required fields => productID, userID
+
+
 
 METHOD: GET
 (GET ALL CARTS)
@@ -61,7 +67,13 @@ METHOD: GET
 (GET PARTICULAR USER CART)
 http://localhost:5000/cart/get-user-cart/(userID)
 
+
+
+
 METHOD: PATCH
+data:{
+    quantity:
+}
 (UPDATE CART ITEM QUANTITY)
 http://localhost:5000/cart/update-cart/(cartID)
 
