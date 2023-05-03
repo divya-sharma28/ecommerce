@@ -7,7 +7,7 @@ cartRouter.post('/add-to-cart',addToCart);
 cartRouter.get('/get-carts',getCartData);
 cartRouter.get('/get-user-cart/:userID',getUserCart);
 cartRouter.patch('/update-cart/:itemID',updateCart);
-cartRouter.delete('/delete-item/:cartID',deleteCartItem);
+cartRouter.delete('/delete-item/:itemID',deleteCartItem);
 cartRouter.delete('/delete-user-cart/:userID',deleteUserCart);
 
 export default cartRouter;
