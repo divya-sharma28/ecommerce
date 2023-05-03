@@ -82,7 +82,7 @@ export const allProducts = async(req,res)=>{
                        => 'i' refers to case insensitivity.
             */                
                 $or:[
-                    {title:{$regex: `.*${q}.*`,$options:'i'}},
+                    {name:{$regex: `.*${q}.*`,$options:'i'}},
                     {brand:{$regex: `.*${q}.*`,$options:'i'}}
                 ]
             }).populate('category');
