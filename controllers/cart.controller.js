@@ -177,7 +177,8 @@ export const deleteCartItem = async(req,res) =>{
     try {
         const itemID = req.params.itemID;
         const deleteItem = await cartModel.deleteOne({_id:itemID});
-        if(deleteItem){
+
+        if(deleteItem.deletedCount==1){
             res.status(200).json({
                 data: deleteItem,
                 message:'Item deleted from cart successfully'
