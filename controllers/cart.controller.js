@@ -23,7 +23,7 @@ export const addToCart = async (req, res) => {
                         name: product.name,
                         image: product.thumbnail,
                         price: product.user_price * new_quantity ,
-                        quantity: new_quantity
+                        quantity: new_quantity 
                 }
         }});
 
@@ -48,7 +48,7 @@ export const addToCart = async (req, res) => {
                     name: product.name,
                     image: product.thumbnail,
                     price: product.user_price,
-                    quantity: quantity
+                    quantity: quantity || 1
                 },
                 userID: userID
             });
