@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { trusted } from "mongoose";
 import categoryModel from './category.model'
 
 const Schema =  mongoose.Schema;
@@ -45,9 +45,12 @@ const prodSchema = new Schema({
     images:{
         type: Array,
         required: true
+    },
+    prod_quantity:{
+        type: Number,
+        default: 1,
+        required: true
     }
-
-
 });
 
 export default mongoose.model('Product',prodSchema)
