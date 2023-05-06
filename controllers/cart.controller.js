@@ -136,15 +136,18 @@ try {
     const {quantity} = req.body;
 
     const getdata = await cartModel.findOne({_id: itemID});
-    const orgPrice = getdata.product.user_price/getdata.product.quantity  //45000
+    console.log(getdata)
+    const orgPrice = getdata.product.price/getdata.product.quantity  //45000
     const newprice = orgPrice*quantity;
+    console.log(newprice)
+
 
   
 
     const updateCartData = await cartModel.updateOne({_id: itemID},
         {$set:{
             product:{
-            id:getdata.product.id,
+            id:getdata.product._id,
             name:getdata.product.name,
             image:getdata.product.image,
             quantity:quantity,
