@@ -5,7 +5,7 @@ import productModel from '../models/product.model';
 // ========================================= CREATE ========================================
 export const addToCart = async (req, res) => {
     try {
-        const { productID, userID } = req.body;
+        const { productID, userID, quantity } = req.body;
 
         const product = await productModel.findOne({ _id: productID });
         console.log(product);
@@ -48,7 +48,7 @@ export const addToCart = async (req, res) => {
                     name: product.name,
                     image: product.thumbnail,
                     price: product.user_price,
-                    quantity: product.prod_quantity
+                    quantity: quantity
                 },
                 userID: userID
             });
