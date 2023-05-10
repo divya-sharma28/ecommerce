@@ -3,14 +3,22 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const vendorSchema = new Schema({
-    name:{
+    company:{
         type: String,
         required: true
+    },
+    logo:{
+        type: String,
+        required: true  
     },
     email:{
         type: String,
         required: true
     },
+   phone:{
+    type: Number,
+    required: true
+   },
     password:{
         type: String,
         required: true

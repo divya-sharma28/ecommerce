@@ -42,8 +42,19 @@ const file_name =(file,cb)=>{
            file_name(file,cb);
         }
     });
+// ================================== VENDOR ================================
+ 
+    export const vendorUpload = multer({ storage: vendorStorage })
+    const vendorStorage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            file_dest('company_images',cb);
+        },
+        filename: function (req, file, cb) {
+           file_name(file,cb);
+        }
+    });
     
-    export const prodUpload = multer({ storage: prodStorage })
+    export const prodUpload = multer({ storage: vendorStorage })
 
 
     

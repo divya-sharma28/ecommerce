@@ -47,6 +47,36 @@ METHOD: GET
 (GET ALL ADMINS)
 http://localhost:5000/admin/get-admin
 
+
+CATEGORY CRUD OPERATION:
+1. METHOD: POST
+http://localhost:5000/admin/add-category --> input fields => name, image
+
+2. METHOD: GET
+http://localhost:5000/admin/get-category 
+
+3. METHOD: PATCH
+http://localhost:5000/admin/update-category/(categoryID)
+
+4. METHOD: DELETE
+http://localhost:5000/admin/delete-category
+
+
+PRODUCT CRUD OPERATION:
+1. METHOD: POST
+http://localhost:5000/admin/add-product -->
+input fields => name, description, vendor_price, user_price, rating, stock, brand, category, thumbnail, images
+
+2. METHOD: GET
+http://localhost:5000/admin/get-product 
+
+3. METHOD: PATCH
+http://localhost:5000/admin/update-product/(productID)
+
+4. METHOD: DELETE
+http://localhost:5000/admin/delete-product
+
+
 -----------------------------------------------CART--------------------------------------------
 
 METHOD: POST

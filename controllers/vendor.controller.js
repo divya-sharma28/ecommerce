@@ -1,62 +1,77 @@
 import vendorModel from '../models/vendor.model';
 import bcrypt from 'bcrypt';
 import jwt  from "jsonwebtoken";
+import { vendorUpload } from '../multer';
+import fs from 'fs'
 
 
 // ----------------- REGISTER NEW VENDOR (POST) -------------------
 
-export const register = async (req, res) => {
+export const register = (req, res) => {
     try {
-        const { name, email, password, confirm_password, category, location } = req.body;
-        const vendorExists = await vendorModel.findOne({email:email});
-
-        if(vendorExists){
-            res.status(409).json({
-                message: `${vendorExists.email} already exists!`,
-                success: false
-
-            })
-        }
-        else{
-            if(password !== confirm_password){
-                res.status(401).json({
-                    message: `Password does not match!`,
-                    success: false
-
-                })
+        const uploadData = vendorUpload.single('logo');
+        uploadData(req,res, async (err)=>{
+            if (err) {
+                res.status(400).json({
+                    message: `Cannot upload image ${err.message}`
+                });
             }
             else{
-                const catData = category.split(",")
-                const hashPassword = bcrypt.hashSync(password, 10);
-                const addVendor = new vendorModel({
-                    name : name,
-                    email: email,
-                    password: hashPassword,
-                    category: catData,
-                    location: location
-
-                });
-
-                addVendor.save();
-
-                if(addVendor){
-                    res.status(200).json({
-                        Data: {email:addVendor.email,name: addVendor.name, category: addVendor.category, location: addVendor.location},
-                        message: `${email} registered successfully!`,
-                        success: true
-
+                const {company, logo, email, password, confirm_password, category, location } = req.body;
+                const img = req.file.filename;
+                const vendorExists = await vendorModel.findOne({email:email});
+        
+                if(vendorExists){
+                    res.status(409).json({
+                        message: `${vendorExists.email} already exists!`,
+                        success: false
+        
                     })
                 }
                 else{
-                    res.status(400).json({
-                        message:`Registeration failed!`,
-                        success: false
-
-                    })
+                    if(password !== confirm_password){
+                        res.status(401).json({
+                            message: `Password does not match!`,
+                            success: false
+        
+                        })
+                    }
+                    else{
+                        const catData = category.split(",")
+                        const hashPassword = bcrypt.hashSync(password, 10);
+                        const addVendor = new vendorModel({
+                            company: company,
+                            logo: img,
+                            email: email,
+                            password: hashPassword,
+                            category: catData,
+                            location: location
+        
+                        });
+        
+                        addVendor.save();
+                        const showData = addVendor.filter((val)=>{ return val !== val.confirm_password})
+                        if(addVendor){
+                            res.status(200).json({
+                                Data: showData,
+                                message: `${email} registered successfully!`,
+                                success: true
+        
+                            })
+                        }
+                        else{
+                            res.status(400).json({
+                                message:`Registeration failed!`,
+                                success: false
+        
+                            })
+                        }
+                    }
+                  
                 }
             }
-          
-        }
+        })
+    
 
     } catch (error) {
         res.status(500).json({
@@ -79,7 +94,7 @@ export const login = async(req,res) =>{
             if(match){
                 const token = jwt.sign({_id:existVendor._id,email:existVendor.email, _id:existVendor._id},'vendor123',{expiresIn:'90d'})
                 res.status(200).json({
-                    data: {name: existVendor.name, email: existVendor.email},
+                    data: {company: existVendor.company, email: existVendor.email},
                     token: token,
                     message: 'Login successful!',
                     success: true
@@ -156,45 +171,68 @@ export const getVendor = async(req,res)=>{
 }
 
 // ----------------- UPDATE VENDOR (PATCH) -------------------
-export const updateVendor = async(req,res)=>{
+export const updateVendor = (req,res)=>{
     try {
-        const vendorID = req.params.vendorID
-        const {name, email, password, confirm_password, category, location} = req.body;
-
-        let hashPassword;
-        if(password){
-            if(password !== confirm_password ){
+        const uploadData = vendorUpload.single('logo')
+        uploadData(req,res, async (err)=>{
+            if(err){
                 res.status(400).json({
-                    message: 'Password does not match!'
-                });
+                    message: `Cannot upload image ${err.message}`
+                });  
             }
             else{
-                hashPassword = bcrypt.hashSync(password, 10);
-            }
-
-        }
-        const updateVendor = await vendorModel.updateOne({_id: vendorID},{
-            $set:{
-                name: name,
-                email: email,
-                password: hashPassword,
-                category: category,
-                location: location
-
-            }
-        });
+                const vendorID = req.params.vendorID
+                const {company,logo, email, password, confirm_password, category, location} = req.body;
+                let img;
+                if(req.file){
+                    img=req.res.filename;
+                    const oldData = await vendorModel.findOne({_id: vendorID});
+                    fs.unlink(`./uploads/company_images/${oldData.logo}`,(err)=>{
+                        if(err){
+                            res.status(400).json({
+                                message: 'Cannot delete image'+err.message
+                            })
+                        }
+                    })                
+                }
+                let hashPassword;
+                if(password){
+                    if(password !== confirm_password ){
+                        res.status(400).json({
+                            message: 'Password does not match!'
+                        });
+                    }
+                    else{
+                        hashPassword = bcrypt.hashSync(password, 10);
+                    }
         
-        if (updateVendor.acknowledged) {
-            res.status(201).json({
-                data: updateVendor,
-                message: 'Vendors updated successfully!'
-            });
-        }
-        else {
-            res.status(400).json({
-                message: 'Error while updating vendor!'
-            });
-        }
+                }
+                const updateVendor = await vendorModel.updateOne({_id: vendorID},{
+                    $set:{
+                        company: company,
+                        logo: logo,
+                        email: email,
+                        password: hashPassword,
+                        category: category,
+                        location: location
+        
+                    }
+                });
+                
+                if (updateVendor.acknowledged) {
+                    res.status(201).json({
+                        data: updateVendor,
+                        message: 'Vendors updated successfully!'
+                    });
+                }
+                else {
+                    res.status(400).json({
+                        message: 'Error while updating vendor!'
+                    });
+                }
+            }
+        })
+     
     } catch (error) {
         res.status(500).json({
             message: `Server Error: ${error.message}`

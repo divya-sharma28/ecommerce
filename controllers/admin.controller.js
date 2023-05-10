@@ -14,7 +14,6 @@ export const register = async (req, res) => {
             res.status(409).json({
                 message: `${adminExists.email} already exists!`,
                 success: false
-
             })
         }
 
