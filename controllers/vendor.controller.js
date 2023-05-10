@@ -132,7 +132,8 @@ export const getVendors = async(req,res)=>{
         if (getVendor) {
             res.status(201).json({
                 data: getVendor,
-                message: 'Vendors fetched successfully!'
+                message: 'Vendors fetched successfully!',
+                path: process.env.PATH+'/company_images'
             });
         }
         else {
