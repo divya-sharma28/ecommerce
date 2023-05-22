@@ -15,6 +15,10 @@ const cartSchema = new Schema({
       type: String,
       required: true
     },
+    category:{
+      type: String,
+      required:true 
+    },
     image: {
       type: String,
       required: true
@@ -28,8 +32,9 @@ const cartSchema = new Schema({
       required: true
     }
   },
+ 
 
-  userID: {
+  userID:{
     type: Schema.Types.ObjectId,
     ref: user,
     required: true

@@ -1,8 +1,10 @@
 import vendorModel from '../models/vendor.model';
+import locationModel from '../models/location.model';
 import bcrypt from 'bcrypt';
 import jwt  from "jsonwebtoken";
 import { vendorUpload } from '../multer';
 import fs from 'fs'
+
 
 
 // ----------------- REGISTER NEW VENDOR (POST) -------------------
@@ -17,8 +19,9 @@ export const register = (req, res) => {
                 });
             }
             else{
-                const {company, logo, email, password, confirm_password, category, location } = req.body;
+                const {company, email,phone, password, confirm_password, category,location } = req.body;
                 const img = req.file.filename;
+                const location_data = await locationModel.findOne({address: location})
                 const vendorExists = await vendorModel.findOne({email:email});
         
                 if(vendorExists){
@@ -43,17 +46,18 @@ export const register = (req, res) => {
                             company: company,
                             logo: img,
                             email: email,
+                            phone: phone,
                             password: hashPassword,
                             category: catData,
-                            location: location
+                            vendor_location: location_data
         
                         });
         
                         addVendor.save();
-                        const showData = addVendor.filter((val)=>{ return val !== val.confirm_password})
+              
                         if(addVendor){
                             res.status(200).json({
-                                Data: showData,
+                                Data: addVendor,
                                 message: `${email} registered successfully!`,
                                 success: true
         
@@ -133,7 +137,7 @@ export const getVendors = async(req,res)=>{
             res.status(201).json({
                 data: getVendor,
                 message: 'Vendors fetched successfully!',
-                path: process.env.PATH+'/company_images'
+                path: process.env.IMG_PATH + '/company_images'
             });
         }
         else {
@@ -183,7 +187,7 @@ export const updateVendor = (req,res)=>{
             }
             else{
                 const vendorID = req.params.vendorID
-                const {company,logo, email, password, confirm_password, category, location} = req.body;
+                const {company, email,phone, password, confirm_password, category, location} = req.body;
                 let img;
                 if(req.file){
                     img=req.res.filename;
@@ -196,6 +200,10 @@ export const updateVendor = (req,res)=>{
                         }
                     })                
                 }
+                let location_data;
+                if (location){
+                    location_data  = await locationModel.findOne({address: location})
+                }
                 let hashPassword;
                 if(password){
                     if(password !== confirm_password ){
@@ -206,16 +214,16 @@ export const updateVendor = (req,res)=>{
                     else{
                         hashPassword = bcrypt.hashSync(password, 10);
                     }
-        
                 }
                 const updateVendor = await vendorModel.updateOne({_id: vendorID},{
                     $set:{
                         company: company,
-                        logo: logo,
+                        logo: img,
                         email: email,
+                        phone:phone,
                         password: hashPassword,
                         category: category,
-                        location: location
+                        vendor_location: location_data
         
                     }
                 });
@@ -248,7 +256,16 @@ export const updateVendor = (req,res)=>{
 export const deleteVendor = async(req,res)=>{
     try {
         const vendorID = req.params.vendorID
+        const delData = await vendorModel.findOne({_id: vendorID});
+        fs.unlink(`./uploads/company_images/${delData.logo}`, (err)=>{
+            if(err){
+                res.status(400).json({
+                    message: `Could not delete image: ${err}`
+                })
+            }
+        })
         const delvendor = await vendorModel.deleteOne({_id: vendorID});
+
         if (delvendor) {
             res.status(201).json({
                 data: delvendor,

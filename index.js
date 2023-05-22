@@ -11,6 +11,7 @@ import vendorRouter from './routers/vendor.router';
 import adminRouter from './routers/admin.router';
 import cartRouter from './routers/cart.router';
 import statusRouter from './routers/status.router';
+import venodorOrdersRouter from './routers/vendor_orders.router';
 dotenv.config()
 
 const app = express();
@@ -48,3 +49,4 @@ app.use('/vendor', vendorRouter);
 app.use('/admin', adminRouter);
 app.use('/cart',cartRouter)
 app.use('/status',statusRouter)
+app.use('/vendor-orders', venodorOrdersRouter)

@@ -1,5 +1,6 @@
 import cartModel from '../models/cart.model';
 import productModel from '../models/product.model';
+import categoryModel from '../models/category.model';
 
 
 // ========================================= CREATE ========================================
@@ -8,10 +9,15 @@ export const addToCart = async (req, res) => {
         const { productID, userID, quantity } = req.body;
 
         const product = await productModel.findOne({ _id: productID });
-        console.log(product);
-        const userprodExist = await cartModel.findOne({'product.id': productID , userID: userID});
-        console.log(userprodExist);
 
+        const userprodExist = await cartModel.findOne({'product.id': productID , userID: userID});
+
+
+        const quan = quantity || 1  // if  quantity increased before adding to cart
+
+        
+        const catData = await categoryModel.findOne({_id:product.category})
+        console.log(catData.name)
         //  IF PRODUCT OF THAT USER EXIST IN CART THEN UPDATE QUANTITY 
 
         if(userprodExist){
@@ -21,10 +27,13 @@ export const addToCart = async (req, res) => {
                     product:{
                         id: product.id,
                         name: product.name,
+                        category: catData.name,
                         image: product.thumbnail,
                         price: product.user_price * new_quantity ,
-                        quantity: new_quantity 
-                }
+                        quantity: new_quantity
+                },
+        
+                userID: userID
         }});
 
             if (updatequantity) {
@@ -39,21 +48,22 @@ export const addToCart = async (req, res) => {
             }
         }
         //  IF PRODUCT OF THAT USER DOES NOT EXIST IN CART THEN ADD TO CART
-
         else{
         
             const addData = new cartModel({
                 product: {
                     id: product.id,
                     name: product.name,
+                    category: catData.name,
                     image: product.thumbnail,
-                    price: product.user_price,
-                    quantity: quantity || 1
+                    quantity: quan, 
+                    price: product.user_price *quan,
+
                 },
                 userID: userID
             });
-            const saveData = addData.save();
-            if (saveData) {
+            addData.save();
+            if (addData) {
                 res.status(201).json({
                     data: addData,
                     message: 'Added to Cart successfully :)'
@@ -87,7 +97,9 @@ export const getCartData = async (req,res) =>{
             });
         }
         else{
-
+            res.status(400).json({
+                message:'Could not retrieve cart!'
+            })
         }
     } catch (error) {
         res.status(500).json({
@@ -98,19 +110,22 @@ export const getCartData = async (req,res) =>{
 // GET ENTIRE CART OF A USER
 export const getUserCart = async (req,res) =>{
     try {
-        const userID = req.params.userID;
-        
+        const userID = req.params.userID;        
         const cartData = await cartModel.find({userID: userID});
-        let totatAmount = 0;
-        for (let i = 0; i < cartData.length; i++) {
-            const element = cartData[i];
-            totatAmount+= element.product.user_price;
-        }
+   
+        const amountArr = cartData.map((val)=>{
+            return val.product.price
+        })
+        
+
+        const totalAmount = amountArr.reduce((a,b)=> a+b)
+
+
         if(cartData){
             res.status(200).json({
                 data:{
                     cart: cartData,
-                    cart_total: totatAmount,
+                    cart_total: totalAmount,
                     path: `${process.env.IMG_PATH}/prod_images`,
 
                 },
@@ -181,7 +196,7 @@ export const deleteCartItem = async(req,res) =>{
         const itemID = req.params.itemID;
         const deleteItem = await cartModel.deleteOne({_id:itemID});
 
-        if(deleteItem.deletedCount==1){
+        if(deleteItem.deletedCount>0){
             res.status(200).json({
                 data: deleteItem,
                 message:'Item deleted from cart successfully'

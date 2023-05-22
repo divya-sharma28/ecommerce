@@ -27,10 +27,11 @@ const vendorSchema = new Schema({
         type: Array,
         required: true
     },
-    location:{
-        type: String,
+    vendor_location:{
+        type: Object,
         required: true
     },
+
  
     
 });

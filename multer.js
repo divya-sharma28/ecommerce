@@ -34,7 +34,7 @@ const file_name =(file,cb)=>{
     export const categoryUpload = multer({ storage: categoryStorage });
 
  // ================================== PRODUCT ================================
-    const prodStorage = multer.diskStorage({
+     const prodStorage = multer.diskStorage({
         destination: function (req, file, cb) {
             file_dest('prod_images',cb);
         },
@@ -42,9 +42,10 @@ const file_name =(file,cb)=>{
            file_name(file,cb);
         }
     });
+    export const prodUpload = multer({ storage: prodStorage })
+
 // ================================== VENDOR ================================
  
-    export const vendorUpload = multer({ storage: vendorStorage })
     const vendorStorage = multer.diskStorage({
         destination: function (req, file, cb) {
             file_dest('company_images',cb);
@@ -53,8 +54,8 @@ const file_name =(file,cb)=>{
            file_name(file,cb);
         }
     });
-    
-    export const prodUpload = multer({ storage: vendorStorage })
+    export const vendorUpload = multer({ storage: vendorStorage })
+
 
 
     

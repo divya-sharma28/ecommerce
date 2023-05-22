@@ -6,7 +6,7 @@ import jwt  from "jsonwebtoken";
 
 export const register = async (req, res) => {
     try {
-        const { name, email, location, password, confirm_password } = req.body;
+        const { name, email, address, password, confirm_password } = req.body;
         const userExists = await userModel.findOne({email:email});
 
         if(userExists){
@@ -29,7 +29,7 @@ export const register = async (req, res) => {
                 const addUser = new userModel({
                     name : name,
                     email: email,
-                    location: location,
+                    address: address,
                     password: hashPassword
                 });
 
@@ -161,7 +161,7 @@ export const getUser = async(req,res)=>{
 export const updateUser = async(req,res)=>{
     try {
         const userID = req.params.userID
-        const {name, email,location, password, confirm_password} = req.body;
+        const {name, email,address, password, confirm_password} = req.body;
 
         let hashPassword;
         if(password){
@@ -179,7 +179,7 @@ export const updateUser = async(req,res)=>{
             $set:{
                 name: name,
                 email: email,
-                location: location,
+                address: address,
                 password: hashPassword
             }
         });

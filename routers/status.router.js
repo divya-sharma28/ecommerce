@@ -1,5 +1,6 @@
 import express from 'express';
 import { addStatus, getStatus, delStatus} from '../controllers/status.controller';
+
 const statusRouter = express.Router(); 
 
 statusRouter.post('/add-status', addStatus);         
