@@ -116,6 +116,19 @@ METHOD: DELETE
 http://localhost:5000/cart/delete-user-cart/(userID)
 
 
+-------------------------- ORDERS -----------------------------
+METHOD: POST
+(ON CLICKING BUY NOW BUTTON)
+http://localhost:5000/vendor-orders/add-vendor-order 
+data:{
+    userID:
+    statusID: 
+}
+
+METHOD: GET
+(GET ORDERS)
+http://localhost:5000/vendor-orders/get-vendor-order
+
 
 
 

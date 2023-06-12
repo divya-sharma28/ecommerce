@@ -16,10 +16,12 @@ export const addProduct=(req,res)=>{
             else{
                 const {name,description,vendor_price,user_price,rating,stock,brand,category}= req.body;
                 const images = req.files;
+                console.log(images)
 
                const imgs = images.map(a=>{
                     return a.filename;
                });
+               console.log(imgs)
 
                 const addProd  = new productModel({
                     name: name,

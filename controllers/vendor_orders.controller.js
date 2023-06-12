@@ -16,9 +16,9 @@ export const addToOrders  = async (req,res) =>{
         })
 
         const totalPrice = priceArr.reduce((a,b)=> a+b)
-        console.log(totalPrice)
+        // console.log(totalPrice)
         const totalItems = itemsArr.reduce((a,b)=> a+b)
-        console.log(totalItems)
+        // console.log(totalItems)
 
         const status = await statusModel.findOne({_id:statusID})
         const addOrders = new vendorOrdersModel({
