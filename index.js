@@ -12,7 +12,8 @@ import adminRouter from './routers/admin.router';
 import cartRouter from './routers/cart.router';
 import statusRouter from './routers/status.router';
 import venodorOrdersRouter from './routers/vendor_orders.router';
-import venderControlRouter from './routers/vendor_control.router';
+import operationRouter from './routers/operation.router';
+import vendorModel from './models/vendor.model';
 
 dotenv.config()
 
@@ -44,6 +45,8 @@ mongoose.connect('mongodb+srv://divya1234:e98sm5XQwDZoHY10@cluster0.jmnr6i1.mong
   .then(() => console.log('Connected to database!!!'));
 
 
+  // mongoose.connection.collection('vendors').createIndex({ vendor_location: "2dsphere" });
+ 
 
 app.use('/category',catRouter);
 app.use('/product', productRouter);
@@ -54,5 +57,5 @@ app.use('/admin', adminRouter);
 app.use('/cart',cartRouter)
 app.use('/status',statusRouter)
 app.use('/vendor-orders', venodorOrdersRouter)
-app.use('/controls', venderControlRouter)
+app.use('/vendor-user', operationRouter)
 

@@ -27,13 +27,24 @@ const vendorSchema = new Schema({
         type: Array,
         required: true
     },
-    vendor_location:{
-        type: Object,
+    address:{
+        type: String,
         required: true
     },
-
- 
     
-});
+    vendor_location: {
+        type: {
+          type: String,
+          required: true,
+        },
+        coordinates: {
+          type: [Number], // Specify the array type as Number
+          required: true,
+        },
+      },
+    });
+vendorSchema.index({ vendor_location: "2dsphere" }); // Create 2dsphere index on vendor_location field
 
 export default mongoose.model('vendor', vendorSchema);
+
+

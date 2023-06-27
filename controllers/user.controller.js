@@ -196,8 +196,9 @@ export const updateUser = async(req,res)=>{
             });
         }
     } catch (error) {
+     
         res.status(500).json({
-            message: `Server Error: ${error.message}`
+            message: `Server Error: ${error.message}`,
         });
     }
 }
@@ -213,12 +214,12 @@ export const deleteUser = async(req,res)=>{
         if (deluser) {
             res.status(201).json({
                 data: deluser,
-                message: 'User fetched successfully!'
+                message: 'User deleted successfully!'
             });
         }
         else {
             res.status(400).json({
-                message: 'Error while fetching user!'
+                message: 'Error while deleting user!'
             });
         }
     } catch (error) {

@@ -2,6 +2,7 @@
  const Schema = mongoose.Schema;
 
  const vendorOrdersSchema = new Schema({
+    
     date:{
         type:Date,
         default: new Date().toDateString(), 
@@ -17,11 +18,23 @@
     status:{
         type: String,
         required: true
+    },
+
+    userID:{
+        type: Object,
+        required: true
+    },
+
+    vendorID:{
+        type: Object,
+        required: true
     }
     
 
 
 
+ }, {
+    timestamps: true
  })
  
 

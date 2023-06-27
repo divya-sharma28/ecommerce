@@ -19,9 +19,11 @@ export const register = (req, res) => {
                 });
             }
             else{
-                const {company, email,phone, password, confirm_password, category,location } = req.body;
+                const {company, email,phone, password, confirm_password, category,address } = req.body;
                 const img = req.file.filename;
-                const location_data = await locationModel.findOne({address: location})
+                const location_data = await locationModel.findOne({address: address});
+                console.log(location_data)
+    
                 const vendorExists = await vendorModel.findOne({email:email});
         
                 if(vendorExists){
@@ -48,8 +50,13 @@ export const register = (req, res) => {
                             email: email,
                             phone: phone,
                             password: hashPassword,
-                            category: catData,
-                            vendor_location: location_data
+                            category: catData.sort(),
+                            address: address,
+                            vendor_location:{
+                                type:"Point",
+                                coordinates:[location_data.location.coordinates[0], location_data.location.coordinates[1]]
+                            }
+
         
                         });
         
@@ -204,6 +211,10 @@ export const updateVendor = (req,res)=>{
                 if (location){
                     location_data  = await locationModel.findOne({address: location})
                 }
+                let categoryArr;
+                if(category){
+                    categoryArr = category.split(",").sort()
+                }
                 let hashPassword;
                 if(password){
                     if(password !== confirm_password ){
@@ -222,7 +233,7 @@ export const updateVendor = (req,res)=>{
                         email: email,
                         phone:phone,
                         password: hashPassword,
-                        category: category,
+                        category: categoryArr,
                         vendor_location: location_data
         
                     }

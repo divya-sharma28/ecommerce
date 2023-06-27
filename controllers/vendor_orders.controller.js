@@ -5,7 +5,7 @@ import vendorOrdersModel from "../models/venodor_orders.model"
 
 export const addToOrders  = async (req,res) =>{
     try {
-        const {userID, statusID} = req.body
+        const {userID, statusID, vendorID} = req.body
         const userCart = await cartModel.find({userID: userID})
         
         const priceArr = userCart.map((val)=> {
@@ -24,7 +24,10 @@ export const addToOrders  = async (req,res) =>{
         const addOrders = new vendorOrdersModel({
             items: totalItems,
             total_price: totalPrice,
-            status: status.status
+            status: status.status,
+            userID: userID,
+            vendorID: vendorID
+
         })
 
         addOrders.save()

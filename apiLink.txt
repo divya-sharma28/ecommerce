@@ -122,6 +122,7 @@ METHOD: POST
 http://localhost:5000/vendor-orders/add-vendor-order 
 data:{
     userID:
+    vendorID:
     statusID: 
 }
 
@@ -129,6 +130,16 @@ METHOD: GET
 (GET ORDERS)
 http://localhost:5000/vendor-orders/get-vendor-order
 
+-------------------------- VENDOR USER OPERATION -----------------------------
 
+if vendor matches location with user and also matches all categories then user gets that vendor
 
+METHOD:POST
+http://localhost:5000/vendor-user/operation
+data:{
+    userID:
+}
+
+METHOD:GET
+http://localhost:5000/vendor-user/get-operation
 

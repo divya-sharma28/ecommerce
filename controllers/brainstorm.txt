@@ -1,20 +1,21 @@
 import vendorModel from "../models/vendor.model";
 import cartModel from "../models/cart.model";
 import userModel from "../models/user.model";
+import locationModel from "../models/location.model";
 
 export const vendorControl = async (req, res) => {
     try {
         const { userID } = req.body;
         const userData = await userModel.findOne({ _id: userID })
+        const userLoc = await locationModel.findOne({address: userData.address})
         const userCart = await cartModel.find({ userID: userID });
-
 
         let userCatArr = userCart.map((val) => {
             return val.product.category
         })
         // userCatArr: user category array without repeated values
-        userCatArr = [...new Set(userCatArr)]
-        // console.log(userCatArr)
+        userCatArr = [...new Set(userCatArr)].sort()
+        // console.log(userCatArr,"userCatArr")
         const sellers = await vendorModel.find();
         // vendorsCatArr : array of category arrays of each vendor
         const vendorsCatArr = sellers.map((val) => {
@@ -37,24 +38,25 @@ export const vendorControl = async (req, res) => {
         })
         console.log(arr[0], "arr")
 
-        const filteredVendors = sellers.filter(val => {
-            const sortedArr = arr[0].slice().sort();
-            const sortedCategory = val.category.slice().sort();
-            return sortedArr.join(',') === sortedCategory.join(',');
-          });
+   
         
-        console.log(filteredVendors);
+        const filteredVendors = sellers.filter(val => val.category.every(category => arr[0].includes(category)));
+console.log(filteredVendors.length); 
+
+
 
 
         if (filteredVendors.length > 1) {
             try {
                 //location match
+                const userLocation=userLoc.location.coordinates
+
                 const vendorData = filteredVendors.aggregate([
                     {
                         $geoNear: {
                             near: {
                                 type: "Point",
-                                coordinates: [parseFloat(userData.longitude), parseFloat(userData.latitude)]
+                                coordinates: [parseFloat(userLocation[0]), parseFloat(userLocation[1])]
                             },
                             key: "location",
                             maxDistance: 100,
@@ -71,13 +73,12 @@ export const vendorControl = async (req, res) => {
                 })
             } catch (error) {
                 res.status(400).json({
-                    message: error
+                    message: error.message
                 })
             }
 
 
         }
-        //    console.log(filteredVendors)
 
         else {
             if (userCatArr && vendorsCatArr) {
