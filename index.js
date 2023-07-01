@@ -13,7 +13,6 @@ import cartRouter from './routers/cart.router';
 import statusRouter from './routers/status.router';
 import venodorOrdersRouter from './routers/vendor_orders.router';
 import operationRouter from './routers/operation.router';
-import vendorModel from './models/vendor.model';
 
 dotenv.config()
 
@@ -54,8 +53,7 @@ app.use('/user',userRouter);
 app.use('/location',locRouter);
 app.use('/vendor', vendorRouter);
 app.use('/admin', adminRouter);
-app.use('/cart',cartRouter)
-app.use('/status',statusRouter)
-app.use('/vendor-orders', venodorOrdersRouter)
-app.use('/vendor-user', operationRouter)
-
+app.use('/cart',cartRouter);
+app.use('/status',statusRouter);
+app.use('/vendor-orders', venodorOrdersRouter);
+app.use('/vendor-user', operationRouter);

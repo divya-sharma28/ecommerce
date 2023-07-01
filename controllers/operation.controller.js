@@ -9,6 +9,7 @@ export const operation = async (req, res) => {
     const userData = await userModel.findOne({_id:userID});
     const userCartData = await cartModel.find({ userID: userID });
     const vendors = await vendorModel.find() 
+    
 
     const userLoc = userData.address
     const vendorsMatch = vendors.filter(ven => ven.address===userLoc)
@@ -30,7 +31,7 @@ export const operation = async (req, res) => {
         })
 
 
-        if (userCatArr.length === matched.length) {
+        if (userCatArr.length <= matched.length) {
             arr.push(val)
         }
     })
