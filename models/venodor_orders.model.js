@@ -17,7 +17,8 @@
     },
     status:{
         type: String,
-        required: true
+        required: true,
+        default:'Processing'
     },
 
     userID:{
