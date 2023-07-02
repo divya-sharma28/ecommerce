@@ -194,7 +194,7 @@ export const updateVendor = (req,res)=>{
             }
             else{
                 const vendorID = req.params.vendorID
-                const {company, email,phone, password, confirm_password, category, location} = req.body;
+                const {company, email, phone, password, confirm_password, category, address} = req.body;
                 let img;
                 if(req.file){
                     img=req.res.filename;
@@ -208,8 +208,8 @@ export const updateVendor = (req,res)=>{
                     })                
                 }
                 let location_data;
-                if (location){
-                    location_data  = await locationModel.findOne({address: location})
+                if (address){
+                    location_data  = await locationModel.findOne({address: address})
                 }
                 let categoryArr;
                 if(category){
