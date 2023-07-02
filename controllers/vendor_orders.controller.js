@@ -24,7 +24,7 @@ export const addToOrders  = async (req,res) =>{
         const addOrders = new vendorOrdersModel({
             items: totalItems,
             total_price: totalPrice,
-            status: status.status,
+            status: status.status || 'Processing',
             userID: userID,
             vendorID: vendorID
 
